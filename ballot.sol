@@ -62,4 +62,13 @@ contract Ballot {
                 _winningProposal = prop;
             }
     }
+    
+    function winningProposal2() public view returns (uint8 _winningProposal) {
+        uint256 winningVoteCount = 0;
+        for (uint8 prop = 0; prop < proposals.length; prop++)
+            if (proposals[prop].voteCount > winningVoteCount) {
+                winningVoteCount = proposals[prop].voteCount;
+                _winningProposal = prop;
+            }
+    }
 }
