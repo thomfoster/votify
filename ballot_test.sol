@@ -4,21 +4,26 @@ import "./ballot.sol";
 
 contract testcontract {
    
+ 
     Ballot public ballotToTest;
     
     function setUp () public {
 
-       //only three options (0) abstain (1) yes (2) no
+       //Example for the three options (0) abstain (1) yes (2) no
+       //Before the vote everyone recieves thier inidividual yes/no/abstain
        ballotToTest = new Ballot(2);
        
+       //TODO give each person a number of votes when "giving them the right to vote"
        //These Ballots to test need to be adjusted each time to those displayed in remix
-       ballotToTest.giveRightToVote(0x14723A09ACff6D2A60DcdF7aA4AFf308FDDC160C);
-       ballotToTest.giveRightToVote(0x25E2A90e2A9BC9Dfe3A69b681Ac47f5366c204a1);
-       ballotToTest.giveRightToVote(0x583031D1113aD414F02576BD6afaBfb302140225);
+       ballotToTest.giveRightToVote(0x5B5512DbeF0b49Bf95E4affE3612D1Af99cb7a4E);
+       ballotToTest.giveRightToVote(0x58338393C699fa789571CB30588a35A74B77eD56);
+       ballotToTest.giveRightToVote(0x3493a81601fB240B5C890C959c77E6e4271C2f64);
     }
     
     function checkWinninProposalWithReturnValue () public view returns (uint8) {
         
+        //TODO allow only the chairperson to call this
+        //TODO deanonymize the votes by applying the XOR keys 
         //return the proposal that won the election
         return ballotToTest.winningProposal();
     }
