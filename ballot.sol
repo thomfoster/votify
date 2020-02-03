@@ -15,6 +15,10 @@ contract Ballot {
     mapping(address => Voter) voters;
     Proposal[] proposals;
 
+    //saving the votes that have not been deanynomized
+    mapping(address => uint8) votes;
+    potentialVoterAddresses[] address;
+
     /// Create a new ballot with $(_numProposals) different proposals.
     constructor(uint8 _numProposals) public {
         chairperson = msg.sender;
@@ -24,9 +28,10 @@ contract Ballot {
 
     /// Give $(toVoter) the right to vote on this ballot.
     /// May only be called by $(chairperson).
-    function giveRightToVote(address toVoter) public {
+    function giveRightToVote(address toVoter, uint8 numShares) public {
         if (msg.sender != chairperson || voters[toVoter].voted) return;
-        voters[toVoter].weight = 1;
+        voters[toVoter].weight = numShares;
+        potentialVoterAddresses[potentialVoterAddresses.length] = toVoter;
     }
 
     /// Delegate your vote to the voter $(to).
@@ -55,15 +60,6 @@ contract Ballot {
     }
 
     function winningProposal() public view returns (uint8 _winningProposal) {
-        uint256 winningVoteCount = 0;
-        for (uint8 prop = 0; prop < proposals.length; prop++)
-            if (proposals[prop].voteCount > winningVoteCount) {
-                winningVoteCount = proposals[prop].voteCount;
-                _winningProposal = prop;
-            }
-    }
-    
-    function winningProposal2() public view returns (uint8 _winningProposal) {
         uint256 winningVoteCount = 0;
         for (uint8 prop = 0; prop < proposals.length; prop++)
             if (proposals[prop].voteCount > winningVoteCount) {
