@@ -13,11 +13,10 @@ contract testcontract {
        //Before the vote everyone recieves thier inidividual yes/no/abstain
        ballotToTest = new Ballot(2);
        
-       //TODO give each person a number of votes when "giving them the right to vote"
        //These Ballots to test need to be adjusted each time to those displayed in remix
-       ballotToTest.giveRightToVote(0x5B5512DbeF0b49Bf95E4affE3612D1Af99cb7a4E);
-       ballotToTest.giveRightToVote(0x58338393C699fa789571CB30588a35A74B77eD56);
-       ballotToTest.giveRightToVote(0x3493a81601fB240B5C890C959c77E6e4271C2f64);
+       ballotToTest.giveRightToVote(0x5B5512DbeF0b49Bf95E4affE3612D1Af99cb7a4E, 1);
+       ballotToTest.giveRightToVote(0x58338393C699fa789571CB30588a35A74B77eD56, 1);
+       ballotToTest.giveRightToVote(0x3493a81601fB240B5C890C959c77E6e4271C2f64, 1);
     }
     
     function checkWinninProposalWithReturnValue () public view returns (uint8) {
