@@ -1,0 +1,94 @@
+<!doctype html>
+    <head>
+        <meta charset="utf-8">
+        <title>Votify Playground</title>
+
+        <!-- // Stuff for semantic ui components -->
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
+<style type="text/css">
+  body {
+    background-color: #FCFCFC;
+  }
+  body > .grid {
+    height: 100%;
+  }
+  .column {
+    max-width: 650px;
+  }
+  .centered_img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  }
+  .progress_text {
+    text-align: center !important;
+    right: 0 !important;
+    left: 0 !important;
+  }
+
+</style>
+
+    </head>
+
+    <body>
+
+<div class="ui middle aligned center aligned grid">
+  <div class="ui column">
+    <h1 class="ui header">
+      Should we sell oil to the Russians?
+    </h1>
+
+    <div class="ui hidden divider"></div>
+    <div class="ui hidden divider"></div>
+
+    <div class="ui grid">
+      <div class="two wide column">
+        <h4 class="ui middle">Yes</h4>
+      </div>
+      <div class="fourteen wide column">
+        <div class="ui green progress" id="yes_bar">
+          <div class="bar">
+            <div class="progress"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui grid">
+      <div class="two wide column">
+        <h4 class="ui middle">No</h4>
+      </div>
+      <div class="fourteen wide column">
+        <div class="ui red progress" id="no_bar">
+          <div class="bar">
+            <div class="progress"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui grid">
+      <div class="two wide column">
+        <h4 class="ui middle">Abstain</h4>
+      </div>
+      <div class="fourteen wide column">
+        <div class="ui blue progress" id="abstain_bar">
+          <div class="bar">
+            <div class="progress"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="ethereum_code.js"></script>
+
+    </body>
+</html>

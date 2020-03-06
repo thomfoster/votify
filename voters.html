@@ -1,0 +1,170 @@
+<!doctype html>
+    <head>
+        <meta charset="utf-8">
+        <title>Votify Playground</title>
+
+        <!-- // Stuff for semantic ui components -->
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+              
+        <!-- // Ethereum related script -->
+        <script src="ethereum_code.js"></script>
+
+<style type="text/css">
+  body {
+    background-color: #FCFCFC;
+  }
+  body > .grid {
+    height: 100%;
+  }
+  .column {
+    max-width: 650px;
+  }
+  .centered_img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+</style>
+
+    </head>
+
+    <body>
+
+<div class="ui middle aligned center aligned grid">
+  <div class="ui column white">
+    <h1 class="ui header">
+      Should we sell oil to the Russians?
+    </h1>
+
+    <div class="ui hidden divider"></div>
+    <div class="ui hidden divider"></div>
+
+    <div class="ui three cards">
+      <a class="green card" id='yes_card'>
+        <div class="image">
+          <img src='neutral.jpg' id='yes_img'>
+          <div class="centered_img"><h1 class="ui black header" id="yes_label">YES</h1></div>
+        </div>
+      </a>
+
+      <a class="red card" id='no_card'>
+        <div class="image">
+          <img src='neutral.jpg' id='no_img'>
+          <div class="centered_img"><h1 class="ui black header" id='no_label'>NO</h1></div>
+        </div>
+      </a>
+
+      <a class="blue card" id='abstain_card'>
+        <div class="image">
+          <img src='neutral.jpg' id='abstain_img'>
+          <div class="centered_img"><h1 class="ui black header" id='abstain_label'>ABSTAIN</h1></div>
+        </div>
+      </a>
+
+    </div>
+
+
+    <div class="ui hidden divider"></div>
+    <div class="ui hidden divider"></div>
+    <h4 class="ui header">Or Delegate To Another User</h4>
+
+    <div class="ui hidden divider"></div>
+
+    <div class="ui grid">
+      <div class="one wide column"></div>
+      <div class="fourteen wide column">
+        <div class="ui fluid action input">
+          <input type="text" placeholder="Address: 0x4gf37xkjhd832">
+          <div class="ui button">Delegate</div>
+        </div>
+      </div>
+      <div class="one wide column"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+
+let selected = 0;
+
+$("#yes_card").hover(function() {
+  $( '#yes_img' ).attr("src","yes.jpg");
+  $( '#yes_label').css("color", "white")
+}, function() {
+  if (selected !== 1) {
+    $( '#yes_img' ).attr("src","neutral.jpg");
+    $( '#yes_label').css("color", "black")
+  };
+});
+
+$("#yes_card").click(function() {
+  if (selected != 1){
+    selected = 1;
+  } else {
+    selected = 0;
+  };
+  $( '#yes_img' ).attr("src","yes.jpg");
+  $( '#yes_label').css("color", "white");
+  $( '#no_img' ).attr("src","neutral.jpg");
+    $( '#no_label').css("color", "black");
+    $( '#abstain_img' ).attr("src","neutral.jpg");
+    $( '#abstain_label').css("color", "black")
+  vote(0);
+});
+
+$("#no_card").hover(function() {
+  $( '#no_img' ).attr("src","no.jpg");
+  $( '#no_label').css("color", "white")
+}, function() {
+  if (selected != 2) {
+    $( '#no_img' ).attr("src","neutral.jpg");
+    $( '#no_label').css("color", "black")
+  }
+});
+$("#no_card").click(function() {
+  if (selected != 2){
+    selected = 2;
+  } else {
+    selected = 0;
+  }
+  $( '#yes_img' ).attr("src","neutral.jpg");
+    $( '#yes_label').css("color", "black")
+  $( '#no_img' ).attr("src","no.jpg");
+  $( '#no_label').css("color", "white");
+  $( '#abstain_img' ).attr("src","neutral.jpg");
+    $( '#abstain_label').css("color", "black");
+  vote(1);
+});
+
+$("#abstain_card").hover(function() {
+  $( '#abstain_img' ).attr("src","abstain.jpg");
+  $( '#abstain_label').css("color", "white")
+}, function() {
+  if (selected != 3) {
+    $( '#abstain_img' ).attr("src","neutral.jpg");
+    $( '#abstain_label').css("color", "black")
+  }
+});
+$("#abstain_card").click(function() {
+  if (selected != 3){
+    selected = 3;
+  } else {
+    selected = 0;
+  }
+  $( '#yes_img' ).attr("src","neutral.jpg");
+    $( '#yes_label').css("color", "black");
+    $( '#no_img' ).attr("src","neutral.jpg");
+    $( '#no_label').css("color", "black");
+  $( '#abstain_img' ).attr("src","abstain.jpg");
+  $( '#abstain_label').css("color", "white");
+  vote(2);
+});
+</script>
+
+    </body>
+</html>

@@ -1,0 +1,212 @@
+<!doctype html>
+    <head>
+        <meta charset="utf-8">
+        <title>Votify Playground</title>
+
+        <!-- // Stuff for semantic ui components -->
+        <link rel="stylesheet" href="/semantic/semantic.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+        <script src="/semantic/semantic.min.js"></script>
+
+        <!-- // Ethereum related script -->
+        <script>
+// ---------------------------------------------------------------------------------------- //
+
+/*
+This example only works with predeployed contracts.
+Get the required information from remix and paste it here.
+*/
+
+var CONTRACT_ADDRESS = '0x070cC754dD52E62944D1eEBc84eE8eFad69cA634'
+var CONTRACT_ABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "newNumber",
+				"type": "uint256"
+			}
+		],
+		"name": "setNumber",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "flag",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "getNumber",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "theNumber",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "flag",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+var CONTRACT; // populated by web3 object once everything set up nicely
+
+/*
+Initial preamble boilerplate from:
+https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md
+
+It checks that the browser is compatible, and if it is, calls the 
+main function! 
+*/
+
+window.addEventListener('load', async () => {
+
+  // Modern dapp browsers...
+  if (window.ethereum) {
+    window.web3 = new Web3(ethereum);
+    try {
+      // Request account access if needed
+      await ethereum.enable();
+      // Acccounts now exposed
+      main()
+    } catch (error) {
+      // User denied account access...
+      console.log('User denied account access!')
+    }
+  }
+  // Legacy dapp browsers...
+  else if (window.web3) {
+    window.web3 = new Web3(web3.currentProvider);
+    // Acccounts always exposed
+    main()
+  }
+  // Non-dapp browsers...
+  else {
+    alert('Non-Ethereum browser detected. You need to get a plugin, such as MetaMask');
+  }
+
+});
+
+/*
+Main function. Remember how in remix you can load functions at specific addresses, but that
+you have to tell it the function prototype of the thing you're loading?
+This does exactly that, creating a web3 javascript contract object using the ABI and 
+address we supplied above.
+*/
+
+function main() {
+    var contract = web3.eth.contract(CONTRACT_ABI)
+    CONTRACT = contract.at(CONTRACT_ADDRESS)
+}
+
+/*
+These are some example functions you could now call in the console.
+*/
+
+function setNumber(newNumber){
+  return new Promise(function(resolve,reject) {
+    CONTRACT.setNumber(newNumber, function(error, result) {
+      if(error) {
+          reject(error)
+      } else {
+          resolve(result)
+      }
+    })
+  })
+}
+
+// calling contract functions is asynchronous, so you can't just return values directly
+// instead, we return a Promise, we we can then use to get the result when it's ready.
+function getNumber(){
+  return new Promise(function(resolve,reject) {
+    CONTRACT.getNumber(function(error, result) {
+      if(error) {
+          reject(error)
+      } else {
+          resolve(result)
+      }
+    })
+  })
+}
+
+// --------------------------------------------------------------------------------------- //        
+        </script>
+    </head>
+    <body style='background-color: #F8F9FC; padding: 3em;'>
+
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="six wide column">
+          <div class="ui card">
+            <div class="content">
+              <div class="header">Set</div>
+              <div class="meta">Set the number on the blockchain.</div>
+              <div class="ui hidden divider"></div>
+              <select id="mySelect" class='ui selection dropdown'>
+                <option value=1>1</option>
+                <option value=5>5</option>
+                <option value=13>13</option>
+                <option value=1664>1664</option>
+              </select>
+              <div class="ui hidden divider"></div>
+              <button type="button" class='ui button' id="setButton"> Set on chain</button>
+            </div>
+          </div>
+        </div>
+        <div class="six wide column">
+          <div class="ui card">
+            <div class="content">
+              <div class="header">Get</div>
+              <div class="meta">Get the number from the blockchain.</div>
+              <div class="ui hidden divider"></div>
+              <button type="button" class='ui button' id="getButton">
+                Get from chain
+              </button>
+              <div class="ui hidden divider"></div>
+              <p>Your number: <span id='number'></span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <script>
+// --------------------------------------------------------------------------------------- //        
+// Place these at the end because the document needs to have rendered before theyre called.
+
+document.getElementById('setButton').onclick = function () {
+  setNumber(document.getElementById('mySelect').value).then(function(result){
+    if (result[1] != 0) {
+      // alert('Error!');
+    }
+  })
+}
+
+document.getElementById('getButton').onclick = function () {
+  // Remember getNumber returns a promise, so we need to call .then on it to get its results
+  getNumber().then(function(result) {
+    if (result[1] != 0){
+      alert('Error!');
+    } else {
+      document.getElementById('number').innerHTML = result[0].c[0];
+    }
+  })
+}
+
+// --------------------------------------------------------------------------------------- //        
+        </script>
+    </body>
+</html>

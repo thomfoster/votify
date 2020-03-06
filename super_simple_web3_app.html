@@ -1,0 +1,184 @@
+<!doctype html>
+    <head>
+        <meta charset="utf-8">
+        <title>Votify Playground</title>
+
+        <!-- // This script runs before the webpage loads -->
+        <script>
+// ---------------------------------------------------------------------------------------- //
+
+/*
+This example only works with predeployed contracts.
+Get the required information from remix and paste it here.
+*/
+
+var CONTRACT_ADDRESS = '0xf4B455975e2d2fbCb640932aC79C1F97A92877A7'
+var CONTRACT_ABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "newNumber",
+				"type": "uint256"
+			}
+		],
+		"name": "setNumber",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "getNumber",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "theNumber",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
+var CONTRACT; // don't worry about this - initially undefined, populated later!
+
+/*
+Initial preamble boilerplate code from:
+https://github.com/MetaMask/faq/blob/master/DEVELOPERS.md
+
+It checks that the browser is compatible, and if it is, calls the 
+main function! 
+*/
+
+window.addEventListener('load', async () => {
+
+  // Modern dapp browsers...
+  if (window.ethereum) {
+    window.web3 = new Web3(ethereum);
+    try {
+      // Request account access if needed
+      await ethereum.enable();
+      // Acccounts now exposed
+      main()
+    } catch (error) {
+      // User denied account access...
+      console.log('User denied account access!')
+    }
+  }
+  // Legacy dapp browsers...
+  else if (window.web3) {
+    window.web3 = new Web3(web3.currentProvider);
+    // Acccounts always exposed
+    main()
+  }
+  // Non-dapp browsers...
+  else {
+    alert('Non-Ethereum browser detected. You need to get a plugin, such as MetaMask');
+  }
+
+});
+
+/*
+Main function.
+--------------
+
+This takes the ABI you defined above, and loads the contract at that address on the
+blockchain into memory, reading it in in the form the ABI says it should be in.
+*/
+
+function main() {
+    var contract = web3.eth.contract(CONTRACT_ABI)
+    CONTRACT = contract.at(CONTRACT_ADDRESS)
+}
+
+/*
+Executables.
+-------------
+
+Run python -m http.server 8080 in your terminal.
+Go to 0.0.0.0:8080/filename.html to loada your page.
+Press F12 to open developer tools and go to console.
+You should be able to call these functions.
+*/
+
+function setNumber(newNumber){
+    // The second argument is just a callback function.
+    CONTRACT.setNumber(newNumber, function(error, result) {
+        if(error) {console.log(error)}
+    })
+}
+
+function getNumber(){
+    // This is the scariest bit of the whole thing.
+    // Return values from ethereum functions are asynchronous, so we make whats called a promise
+    // object, that just sits there and exists until it is populated. In reality this is rapid.
+    return new Promise(function(resolve,reject) {
+        CONTRACT.getNumber(function(error, result) {
+            if(error) {
+                reject(error)
+            } else {
+                resolve(result)
+            }
+            })
+    })
+}
+
+// --------------------------------------------------------------------------------------- //        
+        </script>
+    </head>
+
+    <body>
+
+        <div id="setDiv">
+          <form>
+            <select id="mySelect">
+              <option value=1>1</option>
+              <option value=5>5</option>
+              <option value=13>13</option>
+              <option value=1664>1664</option>
+            </select>
+          </form>
+          <button type="button" id="setButton"> Set on chain</button>
+        </div>
+        
+        <br/>
+        <hr/>
+        <br/>
+
+        <div id="getDiv">
+          <button type="button" id="getButton">
+            Get from chain
+          </button>
+          <p>Your number: <span id='number'></span></p>
+        </div>
+
+        <!-- // This script runs once the webpage has loaded. -->
+        <script>
+// --------------------------------------------------------------------------------------- //        
+// Theres loads of ways to attach a function to a button.
+// This is the simplest way by miles, we attach functions to a buttons onclick method.
+
+// The reason these have to be run after the page is loaded is because if run before,
+// the elements won't actually exist yet.
+
+document.getElementById('setButton').onclick = function () {
+  setNumber(document.getElementById('mySelect').value)
+}
+
+document.getElementById('getButton').onclick = function () {
+  // Remember getNumber returns a promise, so we need to call .then on it to get its results
+  getNumber().then(function(result) {
+    document.getElementById('number').innerHTML = result.c[0]
+  })
+}
+
+// --------------------------------------------------------------------------------------- //        
+        </script>
+    </body>
+</html>
