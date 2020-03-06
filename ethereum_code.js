@@ -262,7 +262,9 @@ function main() {
 
 function vote(proposal){
     CONTRACT.vote(proposal, function(error, result) {
-        if(error) {console.log(error)} else {console.log('Successful vote!')}
+        if(error) {
+            alert("Vote failed!")
+        } else {console.log('Successful vote!')}
     })
 }
 
