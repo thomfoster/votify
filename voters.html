@@ -8,9 +8,8 @@
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
         <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-              
-        <!-- // Ethereum related script -->
-        <script src="ethereum_code.js"></script>
+        
+        <!-- Ethereum Stuff runs after page loads -->
 
 <style type="text/css">
   body {
@@ -88,83 +87,8 @@
   </div>
 </div>
 
-<script>
-
-let selected = 0;
-
-$("#yes_card").hover(function() {
-  $( '#yes_img' ).attr("src","yes.jpg");
-  $( '#yes_label').css("color", "white")
-}, function() {
-  if (selected !== 1) {
-    $( '#yes_img' ).attr("src","neutral.jpg");
-    $( '#yes_label').css("color", "black")
-  };
-});
-
-$("#yes_card").click(function() {
-  if (selected != 1){
-    selected = 1;
-  } else {
-    selected = 0;
-  };
-  $( '#yes_img' ).attr("src","yes.jpg");
-  $( '#yes_label').css("color", "white");
-  $( '#no_img' ).attr("src","neutral.jpg");
-    $( '#no_label').css("color", "black");
-    $( '#abstain_img' ).attr("src","neutral.jpg");
-    $( '#abstain_label').css("color", "black")
-  vote(0);
-});
-
-$("#no_card").hover(function() {
-  $( '#no_img' ).attr("src","no.jpg");
-  $( '#no_label').css("color", "white")
-}, function() {
-  if (selected != 2) {
-    $( '#no_img' ).attr("src","neutral.jpg");
-    $( '#no_label').css("color", "black")
-  }
-});
-$("#no_card").click(function() {
-  if (selected != 2){
-    selected = 2;
-  } else {
-    selected = 0;
-  }
-  $( '#yes_img' ).attr("src","neutral.jpg");
-    $( '#yes_label').css("color", "black")
-  $( '#no_img' ).attr("src","no.jpg");
-  $( '#no_label').css("color", "white");
-  $( '#abstain_img' ).attr("src","neutral.jpg");
-    $( '#abstain_label').css("color", "black");
-  vote(1);
-});
-
-$("#abstain_card").hover(function() {
-  $( '#abstain_img' ).attr("src","abstain.jpg");
-  $( '#abstain_label').css("color", "white")
-}, function() {
-  if (selected != 3) {
-    $( '#abstain_img' ).attr("src","neutral.jpg");
-    $( '#abstain_label').css("color", "black")
-  }
-});
-$("#abstain_card").click(function() {
-  if (selected != 3){
-    selected = 3;
-  } else {
-    selected = 0;
-  }
-  $( '#yes_img' ).attr("src","neutral.jpg");
-    $( '#yes_label').css("color", "black");
-    $( '#no_img' ).attr("src","neutral.jpg");
-    $( '#no_label').css("color", "black");
-  $( '#abstain_img' ).attr("src","abstain.jpg");
-  $( '#abstain_label').css("color", "white");
-  vote(2);
-});
-</script>
+        <!-- // Ethereum related script -->
+        <script src="ethereum_code.js"></script>
 
     </body>
 </html>

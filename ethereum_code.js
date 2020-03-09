@@ -7,7 +7,7 @@ This example only works with predeployed contracts.
 Get the required information from remix and paste it here.
 */
 
-var CONTRACT_ADDRESS = '0x2Bef0Fb132794b553D44f823941fF979a8906d4D'
+var CONTRACT_ADDRESS = '0x661E8A2b4D05354f35D6828c4B74851733B93012'
 var CONTRACT_ABI = [
 	{
 		"constant": false,
@@ -264,6 +264,7 @@ function vote(proposal){
     CONTRACT.vote(proposal, function(error, result) {
         if(error) {
             alert("Vote failed!")
+            selected = 0
         } else {console.log('Successful vote!')}
     })
 }
@@ -311,4 +312,104 @@ function updateResults() {
 // $('#no_bar').progress({percent: 62});
 // $('#abstain_bar').progress({percent: 15});
 
-// --------------------------------------------------------------------------------------- //        
+// --------------------------------------------------------------------------------------- // 
+
+function select(mystr) {
+    $( '#'+mystr+'_img' ).attr("src", mystr+".jpg");
+    $( '#'+mystr+'_label').css("color", "white")
+}
+
+function deselect(mystr) {
+    $( '#'+mystr+'_img' ).attr("src", "neutral.jpg");
+    $( '#'+mystr+'_label').css("color", "black")
+}
+
+function setSelected(selected) {
+    strs = ['yes', 'no', 'abstain']
+    select(strs[selected]);
+    deselect(strs[(selected + 1) % 3])
+    deselect(strs[(selected + 2) % 3])
+}
+
+let selected = 0;
+
+// $("#yes_card").hover(function() {
+//     select('yes')
+//   }, function() {
+//     if (selected !== 1) {
+//       deselect('yes')
+//     };
+//   });
+
+$("#yes_card").hover(function() {
+  $( '#yes_img' ).attr("src","yes.jpg");
+  $( '#yes_label').css("color", "white")
+}, function() {
+  if (selected !== 1) {
+    $( '#yes_img' ).attr("src","neutral.jpg");
+    $( '#yes_label').css("color", "black")
+  };
+});
+
+$("#yes_card").click(function() {
+  if (selected != 1){
+    selected = 1;
+  } else {
+    selected = 0;
+  };
+  $( '#yes_img' ).attr("src","yes.jpg");
+  $( '#yes_label').css("color", "white");
+  $( '#no_img' ).attr("src","neutral.jpg");
+    $( '#no_label').css("color", "black");
+    $( '#abstain_img' ).attr("src","neutral.jpg");
+    $( '#abstain_label').css("color", "black")
+  vote(0);
+});
+
+$("#no_card").hover(function() {
+  $( '#no_img' ).attr("src","no.jpg");
+  $( '#no_label').css("color", "white")
+}, function() {
+  if (selected != 2) {
+    $( '#no_img' ).attr("src","neutral.jpg");
+    $( '#no_label').css("color", "black")
+  }
+});
+$("#no_card").click(function() {
+  if (selected != 2){
+    selected = 2;
+  } else {
+    selected = 0;
+  }
+  $( '#yes_img' ).attr("src","neutral.jpg");
+    $( '#yes_label').css("color", "black")
+  $( '#no_img' ).attr("src","no.jpg");
+  $( '#no_label').css("color", "white");
+  $( '#abstain_img' ).attr("src","neutral.jpg");
+    $( '#abstain_label').css("color", "black");
+  vote(1);
+});
+
+$("#abstain_card").hover(function() {
+  $( '#abstain_img' ).attr("src","abstain.jpg");
+  $( '#abstain_label').css("color", "white")
+}, function() {
+  if (selected != 3) {
+    $( '#abstain_img' ).attr("src","neutral.jpg");
+    $( '#abstain_label').css("color", "black")
+  }
+});
+$("#abstain_card").click(function() {
+  if (selected != 3){
+    selected = 3;
+  } else {
+    selected = 0;
+  }
+  $( '#yes_img' ).attr("src","neutral.jpg");
+    $( '#yes_label').css("color", "black");
+    $( '#no_img' ).attr("src","neutral.jpg");
+    $( '#no_label').css("color", "black");
+  $( '#abstain_img' ).attr("src","abstain.jpg");
+  $( '#abstain_label').css("color", "white");
+  vote(2);
+});
