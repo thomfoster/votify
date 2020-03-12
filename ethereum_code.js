@@ -7,7 +7,7 @@ This example only works with predeployed contracts.
 Get the required information from remix and paste it here.
 */
 
-var CONTRACT_ADDRESS = '0x304001AF897Cec44554DD09ce2387149a86376b6'
+var CONTRACT_ADDRESS = '0x894C15629531cdCa2D807EC88f914089A6bF8E7c'
 var CONTRACT_ABI = [
 	{
 		"constant": false,
